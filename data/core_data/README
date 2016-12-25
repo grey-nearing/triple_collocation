@@ -1,0 +1,22 @@
+Hi Grey,
+Attached are the core site matchup data files. The data columns are: year, time-of-year(UTC), WASM (core site vsm), SMAP L2SMP, ECMWF, SMAP-orbiting-mode (1=AM,2=PM). I think we should probably leave triple collocation out of this paper for now.
+ 
+The core site names are:
+Reynolds Creek (0401-36-01)
+Walnut Gulch (1601-36-01)
+TxSON (4801-36-01)
+Fort Cobb (1603-36-01)
+Little Washita (1602-36-01)
+South Fork (1607-36-01)
+Little River (1604-36-01)
+Kenaston (2701-36-01)
+Carman (0901-36-01)
+Monte Buey (1902-36-01)
+REMEDHUS (0301-36-02)
+Twente (1204-36-06)
+MAHASRI (5301-36-01)
+Yanco (0701-36-01)
+Kyeamba (0702-36-01)
+ 
+Let me know if you have any questions.
+Fan
