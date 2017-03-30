@@ -163,19 +163,24 @@ ne_se_s = []; le_se_s = [];
 ni_se_s = []; li_se_s = [];
 ne_se_a = []; le_se_a = [];
 ni_se_a = []; li_se_a = [];
+
 for s = 1:Nsites
+
  ne_se_g = [ne_se_g,squeeze(results(s).NEg(:,1,:)-results(s).NEg(:,2,:)).^2];
  le_se_g = [le_se_g,squeeze(results(s).LEg(:,1,:)-results(s).LEg(:,2,:)).^2];
  ni_se_g = [ni_se_g,squeeze(results(s).NIg(:,1,:)-results(s).NIg(:,2,:)).^2];
  li_se_g = [li_se_g,squeeze(results(s).LIg(:,1,:)-results(s).LIg(:,2,:)).^2];
+
  ne_se_s = [ne_se_s,squeeze(results(s).NEg(:,1,:)-repmat(NEs(s,:)',[1,1,G(s)])).^2];
  le_se_s = [le_se_s,squeeze(results(s).LEg(:,1,:)-repmat(LEs(s,:)',[1,1,G(s)])).^2];
  ni_se_s = [ni_se_s,squeeze(results(s).NIg(:,1,:)-repmat(NIs(s,:)',[1,1,G(s)])).^2];
  li_se_s = [li_se_s,squeeze(results(s).LIg(:,1,:)-repmat(LIs(s,:)',[1,1,G(s)])).^2];
+
  ne_se_a = [ne_se_a,squeeze(results(s).NEg(:,1,:)-repmat(NEa(s,:)',[1,1,G(s)])).^2];
  le_se_a = [le_se_a,squeeze(results(s).LEg(:,1,:)-repmat(LEa(s,:)',[1,1,G(s)])).^2];
  ni_se_a = [ni_se_a,squeeze(results(s).NIg(:,1,:)-repmat(NIa(s,:)',[1,1,G(s)])).^2];
  li_se_a = [li_se_a,squeeze(results(s).LIg(:,1,:)-repmat(LIa(s,:)',[1,1,G(s)])).^2];
+
  [He(:,s),Pe(:,s)] = ttest2(log(squeeze(results(s).NEg(:,1,:)-results(s).NEg(:,2,:))'.^2),...
                             log(squeeze(results(s).LEg(:,1,:)-results(s).LEg(:,2,:))'.^2),'Alpha',0.1);
  De(:,s) = mean(squeeze(results(s).LEg(:,1,:)-results(s).LEg(:,2,:))'.^2)-...
@@ -185,34 +190,40 @@ for s = 1:Nsites
  Di(:,s) = mean(squeeze(results(s).LIg(:,1,:)-results(s).LIg(:,2,:))'.^2)-...
            mean(squeeze(results(s).NIg(:,1,:)-results(s).NIg(:,2,:))'.^2);
 end
+
 ne_se_g(:,124) = []; le_se_g(:,124) = []; ni_se_g(:,124) = []; li_se_g(:,124) = [];
 ne_se_g(:,15)  = []; le_se_g(:,15)  = []; ni_se_g(:,15)  = []; li_se_g(:,15)  = [];
 ne_se_s(:,124) = []; le_se_s(:,124) = []; ni_se_s(:,124) = []; li_se_s(:,124) = [];
 ne_se_s(:,15)  = []; le_se_s(:,15)  = []; ni_se_s(:,15)  = []; li_se_s(:,15)  = [];
 ne_se_a(:,124) = []; le_se_a(:,124) = []; ni_se_a(:,124) = []; li_se_a(:,124) = [];
 ne_se_a(:,15)  = []; le_se_a(:,15)  = []; ni_se_a(:,15)  = []; li_se_a(:,15)  = [];
+
 [he,pe] = ttest2(log(ne_se_s'),log(le_se_s'),'Alpha',0.05);
 [hi,pi] = ttest2(log(ni_se_s'),log(li_se_s'),'Alpha',0.05);
 %[he,pe] = ttest2(ne_se',le_se','Alpha',0.10)
 %[hi,pi] = ttest2(ni_se',li_se','Alpha',0.10)
+
 [mean(le_se_g(1,:)),mean(ne_se_g(1,:)); ...
  mean(li_se_g(1,:)),mean(ni_se_g(1,:)); ...
  mean(le_se_g(2,:)),mean(ne_se_g(2,:)); ...
  mean(li_se_g(2,:)),mean(ni_se_g(2,:)); ...
  mean(le_se_g(3,:)),mean(ne_se_g(3,:)); ...   
  mean(li_se_g(3,:)),mean(ni_se_g(3,:))]   
+
 [mean(le_se_a(1,:)),mean(ne_se_a(1,:)); ...
  mean(li_se_a(1,:)),mean(ni_se_a(1,:)); ...
  mean(le_se_a(2,:)),mean(ne_se_a(2,:)); ...
  mean(li_se_a(2,:)),mean(ni_se_a(2,:)); ...
  mean(le_se_a(3,:)),mean(ne_se_a(3,:)); ...   
  mean(li_se_a(3,:)),mean(ni_se_a(3,:))]   
+
 [mean(le_se_s(1,:)),mean(ne_se_s(1,:)); ...
  mean(li_se_s(1,:)),mean(ni_se_s(1,:)); ...
  mean(le_se_s(2,:)),mean(ne_se_s(2,:)); ...
  mean(li_se_s(2,:)),mean(ni_se_s(2,:)); ...
  mean(le_se_s(3,:)),mean(ne_se_s(3,:)); ...   
  mean(li_se_s(3,:)),mean(ni_se_s(3,:))]   
+
 [he;hi]'
 
 %% *** Plot ***************************************************************
@@ -260,11 +271,11 @@ for s = 1:Nsites
 
 end
 
-fname = strcat('figures/Figure6_SMAP_EMCWF_single');
+fname = strcat('figures/Figure8_SMAP_EMCWF_single');
 img = getframe(gcf);
 imwrite(img.cdata, [fname, '.png']);
 
-
+return
 %% *** Plot ***************************************************************
 % scatter plots
 figure(2); close(2); figure(2);
@@ -305,7 +316,7 @@ for s = 1:Nsites
 
 end
 
-fname = strcat('figures/Figure7_SMAP_EMCWF_core');
+fname = strcat('figures/Figure8_SMAP_EMCWF_core');
 img = getframe(gcf);
 imwrite(img.cdata, [fname, '.png']);
 

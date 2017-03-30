@@ -36,8 +36,8 @@ ylabel(ax(2),'linear correlation','fontsize',18);
 set(ax(2),'YColor','k');
 h2.LineWidth = 4;
 h2.Color = [0.4,0.4,0.4];
-xlabel('information ratio','fontsize',18);
-title('Error Variance vs. Measurement Information','fontsize',16)
+xlabel('mutual information ratio','fontsize',18);
+title('Error Variance vs. Measurement Mutual Information','fontsize',16)
 
 subplot(2,1,2)
 [ax,h1,h2] = plotyy(H,S,H,rho); 
@@ -49,8 +49,8 @@ ylabel(ax(2),'linear correlation','fontsize',18);
 set(ax(2),'YColor','k');
 h2.LineWidth = 4;
 h2.Color = [0.4,0.4,0.4];
-xlabel('total error fraction','fontsize',18);
-title('Error Variance vs. Measurement Error','fontsize',16)
+xlabel('total error (entropy) fraction','fontsize',18);
+title('Error Variance vs. Measurement Error Entropy','fontsize',16)
 
 fname = 'figures/Figure2_sigVinfo';
 img = getframe(gcf);

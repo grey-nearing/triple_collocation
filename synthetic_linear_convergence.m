@@ -5,23 +5,31 @@ addpath('tools');
 
 % dimensions of problem
 Nt = 1e5;
-Ns = 7;
-Nb = 10;
+Ns = 25;
+Nb = 6;
 
 % set varibale along each dimension
-S = linspace(0,sqrt(0.5),Ns);
-B = linspace(2,50,Nb);
+F = logspace(-3,0,Ns);
+B = [5,10,20,25,30,50];  
+
+% set error standard deviation
+S = sqrt(0.3);
 
 % set truth
-T = randn(Nt,1);
+TT = randn(Nt,1);
 
 % loop through experiments
 for s = 1:Ns
 
  % create measurements 
- X = T + randn(Nt,1)*S(s);
- Y = T + randn(Nt,1)*S(s);
- Z = T + randn(Nt,1)*S(s);
+ X = TT + randn(Nt,1)*S;
+ Y = TT + randn(Nt,1)*S;
+ Z = TT + randn(Nt,1)*S;
+
+ % pull sample
+ N = round(Nt*F(s));
+ P = randperm(Nt,N);
+ X = X(P); Y = Y(P); Z = Z(P); T = TT(P);
 
  % calculate continuous linear TC stats
  [LE(s,1,1),LE(s,2,1),LE(s,3,1),LI(s,1,1),LI(s,2,1),LI(s,3,1)] = triple_collocation(X,Y,Z);
@@ -93,23 +101,37 @@ for i = 1:10
 end
 close(1);
 
-% error plots
+binNames(1) = {'linear statistic'};
+for b = 1:Nb
+ binNames(1+b) = strcat({'bin resolution: '},num2str(round(1/B(b)*1000)/1000),'%');
+end
+
+% convergence plots
 figure(2); close(2); fig=figure(2);
-set(gcf,'color','w');
+set(gcf,'color','w','position',[1601,821,875,450]);
+%set(gcf,'color','w','position',[1601,821,893,800]);
 
-%subplot(1,3,1)
-h1 = plot(squeeze(NE(:,1,2,:)),squeeze(NE(:,1,1,:)),'-o','linewidth',1,'color',colors(1,:)); hold on;
-h2 = plot(squeeze(NI(:,1,2,:)),squeeze(NI(:,1,1,:)),'-o','linewidth',1,'color',colors(2,:)); hold on;
-h3 = plot(squeeze(NM(:,1,2,:)),squeeze(NM(:,1,1,:)),'-o','linewidth',1,'color',colors(3,:)); hold on;
-plot([0,1],[0,1],'k--')
-grid on; 
-xlabel('true statistic','fontsize',18);
-ylabel('estimated statistic','fontsize',18);
-title('nonparametric TC','fontsize',16);
-legend([h1(1),h2(2),h3(3)],'total error','total info','missing info','location','nw');
-axis([0,1,0,1]);
+%subplot(2,1,1)
+pdat = squeeze(mean(LE(:,:,1),2));
+semilogx(Nt*F,pdat,'-o','color','k','linewidth',2); hold on;
+pdat = squeeze(mean(NE(:,:,1,:),2));
+semilogx(Nt*F,pdat,'-o'); hold on;
+xlabel('number of data','fontsize',16);
+ylabel('total error','fontsize',16);
+legend(binNames,'location','best');
+title('convergence of total error estimates with sample size','fontsize',16);
 
-fname = 'figures/Figure3_LinearSyntheticResponses';
+%subplot(2,1,2)
+%pdat = squeeze(mean(LE(:,:,2),2));
+%semilogx(Nt*F,pdat,'-o','color','k','linewidth',2); hold on;
+%pdat = squeeze(mean(NE(:,:,2,:),2));
+%semilogx(Nt*F,pdat,'-o'); hold on;
+%xlabel('number of data','fontsize',16);
+%ylabel('total error','fontsize',16);
+%legend(binNames,'location','best');
+%title('convergence of total error (true) with sample size','fontsize',16);
+
+fname = 'figures/Figure5_LinearConvergence';
 img = getframe(gcf);
 imwrite(img.cdata, [fname, '.png']);
 

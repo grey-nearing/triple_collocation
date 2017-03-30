@@ -115,7 +115,7 @@ legend('total error: additive noise','total error: multiplicative noise','total 
        'total info : additive noise','total info : multiplicative noise','total info : heteroscedastic noise','location','nw');
 axis([0,1,0,1]);
 
-fname = 'figures/Figure5_NonlinearSynthetic';
+fname = 'figures/Figure6_NonlinearSynthetic';
 img = getframe(gcf);
 imwrite(img.cdata, [fname,'.png']);
 
